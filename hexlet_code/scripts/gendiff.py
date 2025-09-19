@@ -1,5 +1,5 @@
 import argparse
-from hexlet_code import __version__
+
 
 
 def main():
@@ -8,10 +8,9 @@ def main():
         prog='gendiff'
     )
     
-    parser.add_argument('first_file', help='path to the first file')
-    parser.add_argument('second_file', help='path to the second file')
-    parser.add_argument('-V', '--version', action='version', 
-                       version=f'%(prog)s {__version__}')
+    parser.add_argument('first_file')
+    parser.add_argument('second_file')
+   
     
     args = parser.parse_args()
     result = generate_diff(args.first_file, args.second_file)
