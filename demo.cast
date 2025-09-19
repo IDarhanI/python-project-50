@@ -1,0 +1,7 @@
+{"version": 2, "width": 112, "height": 24, "timestamp": 1758274947, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[0.013767, "o", "\u001b[?2004h\u001b]0;denis@Darhan: ~/python-project-50\u0007\u001b[01;32mdenis@Darhan\u001b[00m:\u001b[01;34m~/python-project-50\u001b[00m$ "]
+[1.388001, "o", "\u001b[7mgendiff file1.json file2.json\u001b[27m"]
+[2.126419, "o", "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\bgendiff file1.json file2.json\r\n\u001b[?2004l\r"]
+[2.145804, "o", "{\r\n - follow: false\r\n    host: hexlet.io\r\n - proxy: 123.234.53.22\r\n - timeout: 50\r\n + timeout: 20\r\n + verbose: true\r\n}\r\n"]
+[2.148236, "o", "\u001b[?2004h\u001b]0;denis@Darhan: ~/python-project-50\u0007\u001b[01;32mdenis@Darhan\u001b[00m:\u001b[01;34m~/python-project-50\u001b[00m$ "]
+[6.278274, "o", "\u001b[?2004l\r\r\nexit\r\n"]
