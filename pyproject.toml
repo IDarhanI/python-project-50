@@ -6,7 +6,8 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
 
-[dependency-groups]
+
+[project.optional-dependencies]
 dev = [
     "pytest >=7.0.0",
     "pytest-cov >=4.0.0",
@@ -20,7 +21,14 @@ gendiff = "hexlet_code.scripts.gendiff:main"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[toll.ruff]
+[tool.uv]
+dev-dependencies = [
+    "pytest >=7.0.0",
+    "pytest-cov >=4.0.0",
+    "ruff >=0.1.0",
+]
+
+[tool.ruff]
 line-length = 80
 
 [lint.per-file-ignores]
