@@ -79,15 +79,7 @@ jobs:
       run: uv run pytest --cov=hexlet_code --cov-report=xml
     
     - name: SonarQube Scan
-      run: |
-        sonar-scanner \
-          -Dsonar.projectKey=denisov-dv_hexlet-code \
-          -Dsonar.projectName=hexlet-code \
-          -Dsonar.organization=denisov-dv \
-          -Dsonar.sources=hexlet_code \
-          -Dsonar.tests=tests \
-          -Dsonar.python.coverage.reportPaths=coverage.xml \
-          -Dsonar.coverage.exclusions=tests/**,**/__init__.py
+      uses: SonarSource/sonarqube-scan-action@v4
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
