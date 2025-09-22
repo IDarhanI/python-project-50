@@ -2,59 +2,85 @@ name: Python CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
-  lint:
+  test:
+    name: Test and Coverage
     runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
         python-version: "3.12"
+    
     - name: Install UV
       uses: astral-sh/setup-uv@v1
+    
     - name: Install dependencies
       run: uv sync --dev
-    - name: Run linter
+    
+    - name: Run tests with coverage
+      run: uv run pytest --cov=hexlet_code --cov-report=xml --cov-report=term-missing -v
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    
+    - name: Install UV
+      uses: astral-sh/setup-uv@v1
+    
+    - name: Install dependencies
+      run: uv sync --dev
+    
+    - name: Run Ruff linter
       run: uv run ruff check
 
-  test:
+  sonarqube:
+    name: SonarQube Analysis
     runs-on: ubuntu-latest
+    needs: [test, lint]
+    if: github.event_name != 'pull_request'
+    
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
         python-version: "3.12"
+    
     - name: Install UV
       uses: astral-sh/setup-uv@v1
+    
     - name: Install dependencies
       run: uv sync --dev
-    - name: Run tests
-      run: uv run pytest
-
-  sonarqube:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install UV
-        uses: astral-sh/setup-uv@v1
-      - name: Install dependencies
-        run: uv sync --dev
-      - name: Test and coverage
-        run: uv run pytest --cov=hexlet_code --cov-report=xml
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    
+    - name: Run tests with coverage for SonarQube
+      run: uv run pytest --cov=hexlet_code --cov-report=xml
+    
+    - name: SonarQube Scan
+      uses: SonarSource/sonarqube-scan-action@v4
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
