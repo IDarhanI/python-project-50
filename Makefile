@@ -23,3 +23,5 @@ force:
 
 package-install:
 		uv tool install dist/*.whl
+gendiff:
+		gendiff file1.json file2.json
