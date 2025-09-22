@@ -26,7 +26,7 @@ def generate_diff(file_path1, file_path2):
         elif key not in data1:
             diff.append(f" + {key}: {format_value(data2[key])}")
         elif data1[key] == data2[key]:
-            diff.append(f"    {key}: {format_value(data1[key])}")
+            diff.append(f"   {key}: {format_value(data1[key])}")
         else:
             diff.append(f" - {key}: {format_value(data1[key])}")
             diff.append(f" + {key}: {format_value(data2[key])}")

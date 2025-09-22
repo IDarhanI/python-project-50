@@ -13,7 +13,8 @@ test-coverage:
 lint:
 	uv run ruff check
 
-check: test lint
+check: 
+	test lint
 
 build:
 	uv build
@@ -22,6 +23,6 @@ force:
 	uv tool install --force dist/*.whl
 
 package-install:
-		uv tool install dist/*.whl
+	uv tool install dist/*.whl
 gendiff:
-		gendiff file1.json file2.json
+	gendiff tests/fixtures/file1.json tests/fixtures/file2.json
