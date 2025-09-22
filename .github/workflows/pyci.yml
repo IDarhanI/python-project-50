@@ -18,7 +18,7 @@ jobs:
     - name: Install UV
       uses: astral-sh/setup-uv@v1
     - name: Install dependencies
-      run: uv sync --all-groups
+      run: uv sync --dev
     - name: Run linter
       run: uv run ruff check
 
@@ -33,7 +33,7 @@ jobs:
     - name: Install UV
       uses: astral-sh/setup-uv@v1
     - name: Install dependencies
-      run: uv sync --all-groups
+      run: uv sync --dev
     - name: Run tests
       run: uv run pytest
 
@@ -50,7 +50,7 @@ jobs:
       - name: Install UV
         uses: astral-sh/setup-uv@v1
       - name: Install dependencies
-        run: uv sync --all-groups
+        run: uv sync --dev
       - name: Test and coverage
         run: uv run pytest --cov=hexlet_code --cov-report=xml
       - name: SonarQube Scan
