@@ -34,7 +34,7 @@ jobs:
     - name: Run SonarScanner
       run: |
         sonar-scanner --version
-        sonar-scanner -x \
+        sonar-scanner -x
           -Dsonar.host.url=$SONAR_HOST_URL \
           -Dsonar.login=$SONAR_TOKEN \
           -Dsonar.projectKey=IDarhanI_python-project-50 \
