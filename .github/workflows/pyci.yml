@@ -37,8 +37,8 @@ jobs:
         sonar-scanner \
           -Dsonar.host.url=$SONAR_HOST_URL \
           -Dsonar.login=$SONAR_TOKEN \
-          -Dsonar.projectKey=IDarhanI_python-project-50 \  # ИЗМЕНЕНО ЗДЕСЬ!
-          -Dsonar.sources=hexlet_code \ # Укажите правильный путь к вашему исходному коду
+          -Dsonar.projectKey=IDarhanI_python-project-50 \
+          -Dsonar.sources=hexlet_code \
           -Dsonar.branch.name=${GITHUB_REF##*/} \
           -Dsonar.branch.target=${GITHUB_BASE_REF}
       env:
