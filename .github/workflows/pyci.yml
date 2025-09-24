@@ -70,22 +70,22 @@ jobs:
     
     - name: Install SonarScanner
       run: |
-        wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux.zip
-        unzip -q sonar-scanner-cli-6.2.1.4610-linux.zip
-        echo "SONAR_SCANNER_HOME=$PWD/sonar-scanner-6.2.1.4610-linux" >> $GITHUB_ENV
-        echo "$PWD/sonar-scanner-6.2.1.4610-linux/bin" >> $GITHUB_PATH
+        # Скачиваем актуальную версию SonarScanner
+        wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+        unzip -q sonar-scanner-cli-5.0.1.3006-linux.zip
+        echo "SONAR_SCANNER_HOME=$PWD/sonar-scanner-5.0.1.3006-linux" >> $GITHUB_ENV
+        echo "$PWD/sonar-scanner-5.0.1.3006-linux/bin" >> $GITHUB_PATH
     
     - name: Run SonarScanner
       run: |
+        sonar-scanner --version
         sonar-scanner \
           -Dsonar.host.url=$SONAR_HOST_URL \
           -Dsonar.login=$SONAR_TOKEN \
           -Dsonar.projectKey=denisov-dv_hexlet-code \
           -Dsonar.projectName=hexlet-code \
           -Dsonar.sources=hexlet_code \
-          -Dsonar.tests=tests \
-          -Dsonar.python.coverage.reportPaths=coverage.xml \
-          -Dsonar.coverage.exclusions=tests/**,**/__init__.py
+          -Dsonar.python.coverage.reportPaths=coverage.xml
       env:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
