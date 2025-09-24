@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install uv
+        pip install uv  # Рассмотрите возможность указания версии uv для стабильности
         uv sync --dev
     
     - name: Lint with ruff
@@ -45,8 +45,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 0
-        
+        fetch-depth: 0  # Важно для корректного анализа веток
+
     - name: Set up Python 3.12
       uses: actions/setup-python@v4
       with:
@@ -55,27 +55,26 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install uv
+        pip install uv   # Рассмотрите возможность указания версии uv для стабильности
         uv sync --dev
         
     - name: Generate coverage report for SonarCloud
       run: |
         uv run pytest --cov=hexlet_code --cov-report=xml
-    
+
     - name: Setup Java for SonarScanner
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
-    
+
     - name: Install SonarScanner
       run: |
-        # Скачиваем актуальную версию SonarScanner
         wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
         unzip -q sonar-scanner-cli-5.0.1.3006-linux.zip
         echo "SONAR_SCANNER_HOME=$PWD/sonar-scanner-5.0.1.3006-linux" >> $GITHUB_ENV
         echo "$PWD/sonar-scanner-5.0.1.3006-linux/bin" >> $GITHUB_PATH
-    
+
     - name: Run SonarScanner
       run: |
         sonar-scanner --version
@@ -85,7 +84,10 @@ jobs:
           -Dsonar.projectKey=IDarhanI_hexlet-code \
           -Dsonar.projectName=hexlet-code \
           -Dsonar.sources=hexlet_code \
-          -Dsonar.python.coverage.reportPaths=coverage.xml
+          -Dsonar.python.coverage.reportPaths=coverage.xml \
+          -Dsonar.branch.name=${GITHUB_REF##*/} \
+          -Dsonar.branch.target=${GITHUB_BASE_REF} #Ключевое для анализа PR
+
       env:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
