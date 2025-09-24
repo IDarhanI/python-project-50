@@ -11,23 +11,6 @@
 
 [![asciicast](https://asciinema.org/a/sqyC7z6Tzjn3ckX1NR3PmOrRz.svg)](https://asciinema.org/a/sqyC7z6Tzjn3ckX1NR3PmOrRz)
 
-## Сборка
-
-**hexlet-check** - Статус автоматических проверок Hexlet.
-
-## Качество кода (SonarQube)
-
-- **Quality Gate Status: Passed** - Общий статус качества кода, определяемый SonarQube
-- **Bugs** - Количество найденных багов
-- **Code Smells** - Количество code smells (проблемных участков кода)
-- **Duplicated Lines (%)** - Процент дублированного кода
-- **Lines of Code** - Количество строк кода
-- **Reliability Rating** - Рейтинг надежности кода
-- **Security Rating** - Рейтинг безопасности кода
-- **Technical Debt** - Оценка технического долга
-- **Maintainability Rating** - Рейтинг поддерживаемости кода
-- **Vulnerabilities** - Количество найденных уязвимостей
-- **Coverage** - Покрытие кода тестами
 
 ## Установка
 
@@ -40,9 +23,9 @@
    ```bash
    cd python-project-50
    ```
-4. Установите утилиту с помощью uv:
+4. Установите зависимости с помощью uv:
    ```bash
-   uv sync --dev
+   make install
    ```
 
 ## Использование
@@ -50,6 +33,11 @@
 ### Базовое использование
 ```bash
 gendiff file1.json file2.json
+```
+
+### Через Makefile
+```bash
+make gendiff
 ```
 
 ### Форматы вывода
@@ -81,6 +69,30 @@ gendiff tests/fixtures/file1.json tests/fixtures/file2.json
 gendiff tests/fixtures/file1.yml tests/fixtures/file2.yml
 ```
 
+## Команды Makefile
+
+### Установка и сборка
+```bash
+make install      # Установить зависимости
+make build        # Собрать пакет
+make package-install # Установить пакет локально
+make force        # Принудительная переустановка пакета
+```
+
+### Тестирование и проверка кода
+```bash
+make test         # Запустить тесты
+make test-coverage # Запустить тесты с покрытием
+make lint         # Проверить код стилем
+make check        # Запустить тесты и проверку кода
+```
+
+### Запуск утилиты
+```bash
+make gendiff      # Запустить сравнение тестовых файлов
+make run          # Запустить пакет (если применимо)
+```
+
 ## Разработка
 
 ### Установка для разработки
@@ -90,22 +102,39 @@ git clone https://github.com/IDarhanI/python-project-50.git
 cd python-project-50
 
 # Установка зависимостей
+make install
+```
+
+### Стандартный workflow разработки
+```bash
+# Установить зависимости
+make install
+
+# Запустить тесты и проверку кода
+make check
+
+# Собрать пакет
+make build
+
+# Протестировать установку
+make package-install
+
+# Проверить работу утилиты
+make gendiff
+```
+
+### Ручной запуск команд (альтернатива Makefile)
+```bash
+# Установка зависимостей
 uv sync --dev
-```
 
-### Запуск тестов
-```bash
+# Запуск тестов
 uv run pytest
-```
 
-### Проверка кодстайла
-```bash
+# Проверка кодстайла
 uv run ruff check .
-uv run ruff format .
-```
 
-### Сборка пакета
-```bash
+# Сборка пакета
 uv build
 ```
 
