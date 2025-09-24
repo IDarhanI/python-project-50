@@ -1,47 +1,19 @@
-name: Python CI
-
+name: Build
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - main
   pull_request:
-    branches: [ main, master ]
-
+    types: [opened, synchronize, reopened]
 jobs:
-  sonarcloud-debug:
-    name: SonarCloud Debugging
+  sonarqube:
+    name: SonarQube
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    - name: Check Git History
-      run: |
-        git log -n 5
-
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.12"
-
-    - name: Install SonarScanner
-      run: |
-        wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-        unzip -q sonar-scanner-cli-5.0.1.3006-linux.zip
-        echo "$PWD/sonar-scanner-5.0.1.3006-linux/bin" >> $GITHUB_PATH
-
-    - name: Run SonarScanner
-      run: |
-        sonar-scanner --version
-        sonar-scanner -X \
-          -Dsonar.host.url=$SONAR_HOST_URL \
-          -Dsonar.login=$SONAR_TOKEN \
-          -Dsonar.projectKey=IDarhanI_python-project-50 \
-          -Dsonar.sources=hexlet_code \
-          -Dsonar.branch.name=${GITHUB_REF##*/} \
-          -Dsonar.branch.target=${GITHUB_BASE_REF} \
-          -Dsonar.organization=IDarhanI
-      env:
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
