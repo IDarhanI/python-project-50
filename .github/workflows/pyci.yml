@@ -40,7 +40,8 @@ jobs:
           -Dsonar.projectKey=IDarhanI_python-project-50 \
           -Dsonar.sources=hexlet_code \
           -Dsonar.branch.name=${GITHUB_REF##*/} \
-          -Dsonar.branch.target=${GITHUB_BASE_REF}
+          -Dsonar.branch.target=${GITHUB_BASE_REF} \
+          -Dsonar.organization=IDarhanI
       env:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
