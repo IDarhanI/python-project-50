@@ -82,7 +82,7 @@ jobs:
         sonar-scanner \
           -Dsonar.host.url=$SONAR_HOST_URL \
           -Dsonar.login=$SONAR_TOKEN \
-          -Dsonar.projectKey=denisov-dv_hexlet-code \
+          -Dsonar.projectKey=IDarhanI_hexlet-code \
           -Dsonar.projectName=hexlet-code \
           -Dsonar.sources=hexlet_code \
           -Dsonar.python.coverage.reportPaths=coverage.xml
