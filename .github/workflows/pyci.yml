@@ -7,19 +7,17 @@ on:
     branches: [ main, master ]
 
 jobs:
-  build:
+  test-and-lint:
+    name: Test and Lint
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.12]
-
+    
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.12
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: "3.12"
     
     - name: Install dependencies
       run: |
@@ -37,12 +35,13 @@ jobs:
     
     - name: Generate coverage report
       run: |
-        uv run pytest --cov=hexlet_code --cov-report=xml
+        uv run pytest --cov=hexlet_code --cov-report=xml --cov-report=term-missing
 
   sonarcloud:
-    name: SonarCloud
+    name: SonarCloud Analysis
     runs-on: ubuntu-latest
-    needs: build
+    needs: test-and-lint
+    
     steps:
     - uses: actions/checkout@v4
       with:
@@ -62,9 +61,31 @@ jobs:
     - name: Generate coverage report for SonarCloud
       run: |
         uv run pytest --cov=hexlet_code --cov-report=xml
-        
-    - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@de8caf0ae3c6fcf4c9e6c0b5c196c3d8c1f9a0b1
+    
+    - name: Setup Java for SonarScanner
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    
+    - name: Install SonarScanner
+      run: |
+        wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux.zip
+        unzip -q sonar-scanner-cli-6.2.1.4610-linux.zip
+        echo "SONAR_SCANNER_HOME=$PWD/sonar-scanner-6.2.1.4610-linux" >> $GITHUB_ENV
+        echo "$PWD/sonar-scanner-6.2.1.4610-linux/bin" >> $GITHUB_PATH
+    
+    - name: Run SonarScanner
+      run: |
+        sonar-scanner \
+          -Dsonar.host.url=$SONAR_HOST_URL \
+          -Dsonar.login=$SONAR_TOKEN \
+          -Dsonar.projectKey=denisov-dv_hexlet-code \
+          -Dsonar.projectName=hexlet-code \
+          -Dsonar.sources=hexlet_code \
+          -Dsonar.tests=tests \
+          -Dsonar.python.coverage.reportPaths=coverage.xml \
+          -Dsonar.coverage.exclusions=tests/**,**/__init__.py
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
