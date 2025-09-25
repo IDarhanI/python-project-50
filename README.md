@@ -11,7 +11,7 @@
 
 [![asciicast](https://asciinema.org/a/sqyC7z6Tzjn3ckX1NR3PmOrRz.svg)](https://asciinema.org/a/sqyC7z6Tzjn3ckX1NR3PmOrRz)
 
-
+[![asciicast](https://asciinema.org/a/TKc7yZcKR895c2oicRVU4an0Z.svg)](https://asciinema.org/a/TKc7yZcKR895c2oicRVU4an0Z)
 ## Установка
 
 1. Убедитесь, что в вашей системе установлен Python 3.12 или выше
@@ -83,14 +83,13 @@ make force        # Принудительная переустановка па
 ```bash
 make test         # Запустить тесты
 make test-coverage # Запустить тесты с покрытием
-make lint         # Проверить код стилем
+make lint         # Проверить код
 make check        # Запустить тесты и проверку кода
 ```
 
 ### Запуск утилиты
 ```bash
 make gendiff      # Запустить сравнение тестовых файлов
-make run          # Запустить пакет (если применимо)
 ```
 
 ## Разработка
@@ -122,34 +121,3 @@ make package-install
 # Проверить работу утилиты
 make gendiff
 ```
-
-### Ручной запуск команд (альтернатива Makefile)
-```bash
-# Установка зависимостей
-uv sync --dev
-
-# Запуск тестов
-uv run pytest
-
-# Проверка кодстайла
-uv run ruff check .
-
-# Сборка пакета
-uv build
-```
-
-## Структура проекта
-```
-python-project-50/
-├── hexlet_code/          # Исходный код утилиты
-│   └── scripts/
-│       └── gendiff.py    # Основной модуль
-├── tests/               # Тесты
-│   └── fixtures/        # Тестовые файлы
-├── Makefile            # Команды для разработки
-└── pyproject.toml      # Конфигурация проекта
-```
-
-## Системные требования
-- Python 3.12 или выше
-- uv

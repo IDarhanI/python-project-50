@@ -1,6 +1,5 @@
 import argparse
-import json
-
+from .parsers import load_file
 
 def format_value(value):
     if isinstance(value, bool):
@@ -12,8 +11,8 @@ def format_value(value):
 
 
 def generate_diff(file_path1, file_path2):
-    data1 = json.load(open(file_path1))
-    data2 = json.load(open(file_path2))
+    data1 = load_file(file_path1)
+    data2 = load_file(file_path2)
 
     all_keys = sorted(set(data1.keys()) | set(data2.keys()))
 
@@ -30,6 +29,7 @@ def generate_diff(file_path1, file_path2):
         else:
             diff.append(f" - {key}: {format_value(data1[key])}")
             diff.append(f" + {key}: {format_value(data2[key])}")
+
     return "{\n" + "\n".join(diff) + "\n}"
 
 def main():

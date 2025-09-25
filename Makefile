@@ -1,17 +1,14 @@
 install:
 	uv sync
 
-run:
-	uv run hexlet-python-package
-
 test:
 	uv run pytest
 
-test-coverage:
-	uv run pytest --cov=hexlet_python_package --cov-report xml
-
 lint:
 	uv run ruff check
+
+fix:
+	uv run ruff check --fix
 
 check: 
 	test lint
@@ -24,5 +21,9 @@ force:
 
 package-install:
 	uv tool install dist/*.whl
-gendiff:
+
+gendiff-json:
 	gendiff tests/fixtures/file1.json tests/fixtures/file2.json
+
+gendiff-yaml:
+	gendiff tests/fixtures/filepath1.yaml tests/fixtures/filepath2.yaml
