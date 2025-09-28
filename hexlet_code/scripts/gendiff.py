@@ -1,7 +1,7 @@
 import argparse
 from .parsers import load_file
 from .diff_builder import build_diff
-from .formatters import format_stylish
+from .formatters import format_stylish, format_plain
 
 
 def generate_diff(file_path1, file_path2, format_name='stylish'):
@@ -11,6 +11,8 @@ def generate_diff(file_path1, file_path2, format_name='stylish'):
 
     if format_name == 'stylish':
         return format_stylish(diff)
+    elif format_name == 'plain':
+        return format_plain(diff)
     else:
         raise ValueError(f'Unsupported format: {format_name}')
 
@@ -23,7 +25,9 @@ def main():
     
     parser.add_argument('first_file')
     parser.add_argument('second_file')
-    parser.add_argument('-f', '--format', default='stylish', help='set format of output')
+    parser.add_argument('-f', '--format', default='stylish', 
+                       choices=['stylish', 'plain'],
+                       help='set format of output (default: stylish)')
     
     args = parser.parse_args()
 

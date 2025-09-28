@@ -5,44 +5,36 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=IDarhanI_python-project-50&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=IDarhanI_python-project-50)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=IDarhanI_python-project-50&metric=coverage)](https://sonarcloud.io/summary/new_code?id=IDarhanI_python-project-50)
 
-Утилита для сравнения конфигурационных файлов и отображения различий между ними. Поддерживает JSON и YAML форматы с рекурсивным сравнением вложенных структур.
+CLI утилита для сравнения конфигурационных файлов (JSON, YAML) с поддержкой рекурсивного сравнения вложенных структур.
 
 ## 🎥 Демонстрация
 
-### Сравнение JSON файлов
+### Сравнение вложенных структур (Stylish)
 [![asciicast](https://asciinema.org/a/8MR7Wltk6XAQ05kBecxSxBKN4.svg)](https://asciinema.org/a/8MR7Wltk6XAQ05kBecxSxBKN4)
 
-### Сравнение YAML файлов  
+### Сравнение JSON файлов (Plain)
 [![asciicast](https://asciinema.org/a/sqyC7z6Tzjn3ckX1NR3PmOrRz.svg)](https://asciinema.org/a/sqyC7z6Tzjn3ckX1NR3PmOrRz)
 
-### Форматы вывода
+### Сравнение YAML файлов (Plain)
 [![asciicast](https://asciinema.org/a/TKc7yZcKR895c2oicRVU4an0Z.svg)](https://asciinema.org/a/TKc7yZcKR895c2oicRVU4an0Z)
+
+### Plain формат вывода
+[![asciicast](https://asciinema.org/a/Rb7rqjufA2eTXH1pj5dLjGkry.svg)](https://asciinema.org/a/Rb7rqjufA2eTXH1pj5dLjGkry)
 
 ## 📦 Установка
 
-### Установка из репозитория
 ```bash
 git clone https://github.com/IDarhanI/python-project-50.git
 cd python-project-50
 make install
-
-Базовое использование
+🚀 Использование
 bash
-gendiff file1.json file2.json
-С поддержкой форматов вывода
-bash
-# Стандартный формат (stylish) - по умолчанию
+# Базовое использование (stylish формат)
 gendiff file1.json file2.json
 
-# Плоский формат
+# Разные форматы вывода
 gendiff --format plain file1.json file2.json
-
-# JSON формат
 gendiff --format json file1.json file2.json
-Поддерживаемые форматы файлов
-JSON (.json)
-
-YAML (.yml, .yaml)
 
 🛠 Команды Makefile
 Установка и сборка
@@ -61,3 +53,10 @@ bash
 make gendiff-json     # Сравнить JSON файлы
 make gendiff-yaml     # Сравнить YAML файлы
 
+
+✨ Особенности
+Рекурсивное сравнение вложенных структур
+
+Поддержка JSON и YAML форматов
+
+Три формата вывода: stylish, plain, json

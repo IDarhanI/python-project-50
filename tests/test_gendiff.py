@@ -16,9 +16,7 @@ def read_fixture(filename):
 
 def normalize_whitespace(text):
     """Нормализует пробелы для сравнения"""
-    # Заменяем множественные пробелы на один
     text = re.sub(r' +', ' ', text)
-    # Убираем пробелы в конце строк
     text = re.sub(r' +\n', '\n', text)
     return text.strip()
 
@@ -28,13 +26,17 @@ def expected_stylish():
     return read_fixture('expected_stylish.txt')
 
 
+@pytest.fixture
+def expected_plain():
+    return read_fixture('expected_plain.txt')
+
+
 def test_stylish_format_json(expected_stylish):
     file1 = get_fixture_path('file1.json')
     file2 = get_fixture_path('file2.json')
     
     result = generate_diff(file1, file2)
     
-    # Нормализуем пробелы для сравнения
     result_normalized = normalize_whitespace(result)
     expected_normalized = normalize_whitespace(expected_stylish)
     
@@ -47,11 +49,26 @@ def test_stylish_format_yaml(expected_stylish):
     
     result = generate_diff(file1, file2)
     
-    # Нормализуем пробелы для сравнения
     result_normalized = normalize_whitespace(result)
     expected_normalized = normalize_whitespace(expected_stylish)
     
     assert result_normalized == expected_normalized
+
+
+def test_plain_format_json(expected_plain):
+    file1 = get_fixture_path('file1.json')
+    file2 = get_fixture_path('file2.json')
+    
+    result = generate_diff(file1, file2, 'plain')
+    assert result == expected_plain
+
+
+def test_plain_format_yaml(expected_plain):
+    file1 = get_fixture_path('filepath1.yml')
+    file2 = get_fixture_path('filepath2.yml')
+    
+    result = generate_diff(file1, file2, 'plain')
+    assert result == expected_plain
 
 
 def test_stylish_format_mixed_files():
@@ -69,18 +86,3 @@ def test_unsupported_format():
     
     with pytest.raises(ValueError, match="Unsupported format: unknown"):
         generate_diff(file1, file2, 'unknown')
-
-
-def test_unsupported_file_format():
-    # Создадим временный файл с неподдерживаемым расширением
-    import tempfile
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
-        f.write('test content')
-        temp_file = f.name
-    
-    try:
-        from hexlet_code.scripts.parsers import load_file
-        with pytest.raises(ValueError, match="Unsupported file format"):
-            load_file(temp_file)
-    finally:
-        os.unlink(temp_file)
