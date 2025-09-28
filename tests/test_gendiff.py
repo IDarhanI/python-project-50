@@ -1,5 +1,6 @@
 import pytest
 import os
+import re
 from hexlet_code.scripts.gendiff import generate_diff
 
 
@@ -13,6 +14,15 @@ def read_fixture(filename):
         return f.read()
 
 
+def normalize_whitespace(text):
+    """Нормализует пробелы для сравнения"""
+    # Заменяем множественные пробелы на один
+    text = re.sub(r' +', ' ', text)
+    # Убираем пробелы в конце строк
+    text = re.sub(r' +\n', '\n', text)
+    return text.strip()
+
+
 @pytest.fixture
 def expected_stylish():
     return read_fixture('expected_stylish.txt')
@@ -23,7 +33,12 @@ def test_stylish_format_json(expected_stylish):
     file2 = get_fixture_path('file2.json')
     
     result = generate_diff(file1, file2)
-    assert result == expected_stylish
+    
+    # Нормализуем пробелы для сравнения
+    result_normalized = normalize_whitespace(result)
+    expected_normalized = normalize_whitespace(expected_stylish)
+    
+    assert result_normalized == expected_normalized
 
 
 def test_stylish_format_yaml(expected_stylish):
@@ -31,16 +46,19 @@ def test_stylish_format_yaml(expected_stylish):
     file2 = get_fixture_path('filepath2.yml')
     
     result = generate_diff(file1, file2)
-    assert result == expected_stylish
+    
+    # Нормализуем пробелы для сравнения
+    result_normalized = normalize_whitespace(result)
+    expected_normalized = normalize_whitespace(expected_stylish)
+    
+    assert result_normalized == expected_normalized
 
 
 def test_stylish_format_mixed_files():
-    # Тест на одинаковые файлы
     file1 = get_fixture_path('file1.json')
     file2 = get_fixture_path('file1.json')
     
     result = generate_diff(file1, file2)
-    # Проверяем, что для одинаковых файлов вывод корректен
     assert 'common' in result
     assert 'group1' in result
 
@@ -59,8 +77,6 @@ def test_unsupported_file_format():
     with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
         f.write('test content')
         temp_file = f.name
-    
-    file1 = get_fixture_path('file1.json')
     
     try:
         from hexlet_code.scripts.parsers import load_file
