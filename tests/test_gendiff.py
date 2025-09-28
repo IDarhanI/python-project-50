@@ -2,7 +2,7 @@ import pytest
 import json
 import os
 import re
-from hexlet_code.scripts.gendiff import generate_diff  # ИСПРАВЛЕННЫЙ ИМПОРТ
+from hexlet_code.scripts.gendiff import generate_diff
 
 
 def get_fixture_path(filename):
