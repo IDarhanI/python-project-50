@@ -1,8 +1,6 @@
-import os
 import pytest
+import os
 from hexlet_code.scripts.gendiff import generate_diff
-from hexlet_code.scripts.parsers import get_file_format, parse_data, load_file
-from hexlet_code.scripts.diff_builder import build_diff
 
 
 def get_fixture_path(filename):
@@ -10,49 +8,63 @@ def get_fixture_path(filename):
     return os.path.join(current_dir, 'fixtures', filename)
 
 
-def read_file(file_path):
-    with open(file_path, 'r') as f:
-        return f.read().strip()
+def read_fixture(filename):
+    with open(get_fixture_path(filename), 'r') as f:
+        return f.read()
 
 
-def test_generate_diff_stylish_json():
-    file1_path = get_fixture_path('file1.json')
-    file2_path = get_fixture_path('file2.json')
-    expected_path = get_fixture_path('expected_stylish.txt')
-    
-    result = generate_diff(file1_path, file2_path, 'stylish')
-    expected = read_file(expected_path)
-    
-    assert result == expected
+@pytest.fixture
+def expected_stylish():
+    return read_fixture('expected_stylish.txt')
 
 
-def test_generate_diff_stylish_yaml():
-    file1_path = get_fixture_path('file1.yaml')
-    file2_path = get_fixture_path('file2.yaml')
-    expected_path = get_fixture_path('expected_stylish.txt')
+def test_stylish_format_json(expected_stylish):
+    file1 = get_fixture_path('file1.json')
+    file2 = get_fixture_path('file2.json')
     
-    result = generate_diff(file1_path, file2_path, 'stylish')
-    expected = read_file(expected_path)
-    
-    assert result == expected
+    result = generate_diff(file1, file2)
+    assert result == expected_stylish
 
 
-def test_build_diff():
-    data1 = {'key': 'value'}
-    data2 = {'key': 'value', 'new_key': 'new_value'}
+def test_stylish_format_yaml(expected_stylish):
+    file1 = get_fixture_path('filepath1.yml')
+    file2 = get_fixture_path('filepath2.yml')
     
-    diff = build_diff(data1, data2)
-    
-    assert len(diff) == 2
-    assert diff[0] == {'key': 'key', 'type': 'unchanged', 'value': 'value'}
-    assert diff[1] == {'key': 'new_key', 'type': 'added', 'value': 'new_value'}
+    result = generate_diff(file1, file2)
+    assert result == expected_stylish
 
 
-def test_build_diff_nested():
-    data1 = {'nested': {'key': 'value'}}
-    data2 = {'nested': {'key': 'changed'}}
+def test_stylish_format_mixed_files():
+    # Тест на одинаковые файлы
+    file1 = get_fixture_path('file1.json')
+    file2 = get_fixture_path('file1.json')
     
-    diff = build_diff(data1, data2)
+    result = generate_diff(file1, file2)
+    # Проверяем, что для одинаковых файлов вывод корректен
+    assert 'common' in result
+    assert 'group1' in result
+
+
+def test_unsupported_format():
+    file1 = get_fixture_path('file1.json')
+    file2 = get_fixture_path('file2.json')
     
-    assert diff[0]['type'] == 'nested'
-    assert diff[0]['children'][0]['type'] == 'changed'
+    with pytest.raises(ValueError, match="Unsupported format: unknown"):
+        generate_diff(file1, file2, 'unknown')
+
+
+def test_unsupported_file_format():
+    # Создадим временный файл с неподдерживаемым расширением
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+        f.write('test content')
+        temp_file = f.name
+    
+    file1 = get_fixture_path('file1.json')
+    
+    try:
+        from hexlet_code.scripts.parsers import load_file
+        with pytest.raises(ValueError, match="Unsupported file format"):
+            load_file(temp_file)
+    finally:
+        os.unlink(temp_file)

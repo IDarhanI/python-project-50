@@ -17,10 +17,10 @@ def build_diff(data1, data2):
             diff.append({'key': key, 'type': 'unchanged', 'value': value1})
         else:
             diff.append({
-                'key': key, 
-                'type': 'changed', 
-                'old_value': value1, 
+                'key': key,
+                'type': 'changed',
+                'old_value': value1,
                 'new_value': value2
             })
-    
+
     return diff

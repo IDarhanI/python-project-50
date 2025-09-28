@@ -21,15 +21,9 @@ force:
 
 package-install:
 	uv tool install dist/*.whl
+	
+gendiff-json:
+	uv run gendiff tests/fixtures/file1.json tests/fixtures/file2.json
 
-gendiff-flat-json:
-	gendiff tests/fixtures/file1.json tests/fixtures/file2.json
-
-gendiff-flat-yaml:
-	gendiff tests/fixtures/filepath1.yaml tests/fixtures/filepath2.yaml
-
-gendiff-nested-json:
-	gendiff tests/fixtures/file1_nested.json tests/fixtures/file2_nested.json
-
-gendiff-nested-yaml:
-	gendiff tests/fixtures/file1_nested.yaml tests/fixtures/file2_nested.yaml
+gendiff-yaml:
+	uv run gendiff tests/fixtures/filepath1.yml tests/fixtures/filepath2.yml
