@@ -16,7 +16,7 @@ def format_plain(diff, path=''):
             old_value = format_value_plain(node['old_value'])
             new_value = format_value_plain(node['new_value'])
             lines.append(f"Property '{current_path}' was updated. From {old_value} to {new_value}")
-        # unchanged nodes are skipped in plain format
+        
     
     return '\n'.join(line for line in lines if line)
 

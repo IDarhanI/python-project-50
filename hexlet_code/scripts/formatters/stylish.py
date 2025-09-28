@@ -34,10 +34,10 @@ def format_stylish(diff, depth=0):
 
 def format_value(value, depth):
     if value == '':
-        return ''  # Особый случай для пустой строки
+        return ''
     
     if isinstance(value, dict):
-        if not value:  # Пустой словарь
+        if not value:  
             return '{}'
             
         indent = ' ' * (depth * 4)
