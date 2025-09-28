@@ -1,4 +1,5 @@
 import pytest
+import json
 import os
 import re
 from hexlet_code.scripts.gendiff import generate_diff
@@ -15,7 +16,6 @@ def read_fixture(filename):
 
 
 def normalize_whitespace(text):
-    """Нормализует пробелы для сравнения"""
     text = re.sub(r' +', ' ', text)
     text = re.sub(r' +\n', '\n', text)
     return text.strip()
@@ -36,10 +36,8 @@ def test_stylish_format_json(expected_stylish):
     file2 = get_fixture_path('file2.json')
     
     result = generate_diff(file1, file2)
-    
     result_normalized = normalize_whitespace(result)
     expected_normalized = normalize_whitespace(expected_stylish)
-    
     assert result_normalized == expected_normalized
 
 
@@ -48,10 +46,8 @@ def test_stylish_format_yaml(expected_stylish):
     file2 = get_fixture_path('filepath2.yml')
     
     result = generate_diff(file1, file2)
-    
     result_normalized = normalize_whitespace(result)
     expected_normalized = normalize_whitespace(expected_stylish)
-    
     assert result_normalized == expected_normalized
 
 
@@ -69,6 +65,34 @@ def test_plain_format_yaml(expected_plain):
     
     result = generate_diff(file1, file2, 'plain')
     assert result == expected_plain
+
+
+def test_json_format():
+    file1 = get_fixture_path('file1.json')
+    file2 = get_fixture_path('file2.json')
+    
+    result = generate_diff(file1, file2, 'json')
+    
+    # Проверяем что результат валидный JSON
+    parsed_result = json.loads(result)
+    assert isinstance(parsed_result, list)
+    
+    # Проверяем структуру
+    for item in parsed_result:
+        assert 'key' in item
+        assert 'type' in item
+        assert item['type'] in ['added', 'removed', 'changed', 'unchanged', 'nested']
+
+
+def test_json_format_yaml():
+    file1 = get_fixture_path('filepath1.yml')
+    file2 = get_fixture_path('filepath2.yml')
+    
+    result = generate_diff(file1, file2, 'json')
+    
+    # Проверяем что результат валидный JSON
+    parsed_result = json.loads(result)
+    assert isinstance(parsed_result, list)
 
 
 def test_stylish_format_mixed_files():

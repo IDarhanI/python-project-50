@@ -33,3 +33,9 @@ gendiff-plain:
 
 gendiff-plain-yaml:
 	uv run gendiff tests/fixtures/filepath1.yml tests/fixtures/filepath2.yml --format plain
+
+gendiff-json-format:
+	uv run gendiff tests/fixtures/file1.json tests/fixtures/file2.json --format json
+
+gendiff-json-format-yaml:
+	uv run gendiff tests/fixtures/filepath1.yml tests/fixtures/filepath2.yml --format json
