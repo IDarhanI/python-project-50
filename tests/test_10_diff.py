@@ -2,7 +2,7 @@ import pytest
 import json
 import os
 import re
-from hexlet_code.scripts.gendiff import generate_diff
+from hexlet_code.scripts.gendiff import generate_diff  # ИСПРАВЛЕННЫЙ ИМПОРТ
 
 
 def get_fixture_path(filename):
@@ -73,11 +73,11 @@ def test_json_format():
     
     result = generate_diff(file1, file2, 'json')
     
-    
+    # Проверяем что результат валидный JSON
     parsed_result = json.loads(result)
     assert isinstance(parsed_result, list)
     
-    
+    # Проверяем структуру
     for item in parsed_result:
         assert 'key' in item
         assert 'type' in item
@@ -90,7 +90,7 @@ def test_json_format_yaml():
     
     result = generate_diff(file1, file2, 'json')
     
-    
+    # Проверяем что результат валидный JSON
     parsed_result = json.loads(result)
     assert isinstance(parsed_result, list)
 
