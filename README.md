@@ -22,7 +22,7 @@ CLI утилита для сравнения конфигурационных ф
 [![asciicast](https://asciinema.org/a/Rb7rqjufA2eTXH1pj5dLjGkry.svg)](https://asciinema.org/a/Rb7rqjufA2eTXH1pj5dLjGkry)
 
 ### JSON формат вывода
-[![asciicast](https://asciinema.org/a/demo_json.cast.svg)](https://asciinema.org/a/demo_json.cast)
+[![asciicast](https://asciinema.org/a/hUnN0RozzMrDr2IqMttR3YoUD)](https://asciinema.org/a/demo_json.cast)
 
 ## 📦 Установка
 git clone https://github.com/IDarhanI/python-project-50.git
