@@ -25,27 +25,27 @@ CLI утилита для сравнения конфигурационных ф
 [![asciicast](https://asciinema.org/a/demo_json.cast.svg)](https://asciinema.org/a/demo_json.cast)
 
 ## 📦 Установка
-
-```bash
 git clone https://github.com/IDarhanI/python-project-50.git
 cd python-project-50
 make install
 
 🛠 Команды Makefile
 Установка и сборка
-bash
+
 make install          # Установить зависимости
 make build            # Собрать пакет
 make package-install  # Установить пакет локально
 make force            # Принудительная переустановка пакета
+
 Тестирование и проверка кода
-bash
+
 make test             # Запустить тесты
 make lint             # Проверить код линтером
 make fix              # Автоисправление проблем кода
 make check            # Запустить тесты и проверку кода
+
 Запуск утилиты
-bash
+
 make gendiff-json     # Сравнить JSON файлы (stylish)
 make gendiff-yaml     # Сравнить YAML файлы (stylish)
 make gendiff-plain    # Сравнить JSON файлы (plain)
