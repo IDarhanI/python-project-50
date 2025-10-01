@@ -81,7 +81,9 @@ def test_json_format():
     for item in parsed_result:
         assert 'key' in item
         assert 'type' in item
-        assert item['type'] in ['added', 'removed', 'changed', 'unchanged', 'nested']
+        assert item['type'] in [
+            'added', 'removed', 'changed', 'unchanged', 'nested'
+        ]
 
 
 def test_json_format_yaml():

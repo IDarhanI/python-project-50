@@ -23,8 +23,8 @@ gendiff = "gendiff.scripts.gendiff:main"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "pytest >=7.0.0",
     "pytest-cov >=4.0.0",
     "ruff >=0.1.0",
