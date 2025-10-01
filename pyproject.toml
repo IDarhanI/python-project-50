@@ -1,5 +1,5 @@
 [project]
-name = "gendiff"
+name = "hexlet-code"
 version = "0.1.0"
 description = "Compares two configuration files and shows a difference."
 readme = "README.md"
@@ -39,3 +39,7 @@ line-length = 80
 [lint]
 preview = true
 select = ["E", "F", "I", "C90"]
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["gendiff"]
