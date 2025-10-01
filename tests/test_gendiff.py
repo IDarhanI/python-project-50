@@ -2,12 +2,12 @@ import pytest
 import json
 import os
 import re
-from hexlet_code.scripts.gendiff import generate_diff
+from gendiff.scripts.gendiff import generate_diff
 
 
 def get_fixture_path(filename):
     current_dir = os.path.dirname(__file__)
-    return os.path.join(current_dir, 'fixtures', filename)
+    return os.path.join(current_dir, 'test_data', filename)
 
 
 def read_fixture(filename):
