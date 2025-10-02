@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 env:
   UV_PROJECT_ENVIRONMENT: .venv
@@ -34,10 +34,24 @@ jobs:
       run: uv sync --dev --frozen
     
     - name: Run linter
-      run: uv run ruff check .
+      run: |
+        uv run ruff check .
+        uv run ruff format --check .
+    
+    - name: Install the package in development mode
+      run: uv pip install -e .
     
     - name: Run tests with coverage
-      run: uv run pytest --cov=gendiff --cov-report=xml --cov-report=html --junitxml=test-results.xml
+      run: |
+        uv run pytest --cov=gendiff --cov-report=xml --cov-report=html --junitxml=test-results.xml -v
+      env:
+        PYTHONPATH: ${{ github.workspace }}
+    
+    - name: Debug coverage info
+      run: |
+        uv run coverage report
+        echo "Current directory: $(pwd)"
+        echo "Python path: $PYTHONPATH"
     
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v6
@@ -49,12 +63,23 @@ jobs:
           -Dsonar.organization=idarhani
           -Dsonar.python.coverage.reportPaths=coverage.xml
           -Dsonar.python.xunit.reportPath=test-results.xml
+          -Dsonar.sources=gendiff
+          -Dsonar.tests=tests
+          -Dsonar.coverage.exclusions=tests/*,**/__init__.py
     
-    - name: Upload coverage report
+    - name: Upload coverage reports
       uses: actions/upload-artifact@v4
       with:
-        name: coverage-report
+        name: coverage-reports
         path: |
           coverage.xml
           htmlcov/
+          test-results.xml
+        retention-days: 30
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: test-results.xml
         retention-days: 30
