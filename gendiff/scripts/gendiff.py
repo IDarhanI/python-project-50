@@ -5,38 +5,42 @@ from gendiff.scripts.diff_builder import build_diff
 from gendiff.scripts.parsers import load_file
 
 
-def generate_diff(file_path1, file_path2, format_name='stylish'):
+def generate_diff(file_path1, file_path2, format_name="stylish"):
     data1 = load_file(file_path1)
     data2 = load_file(file_path2)
     diff = build_diff(data1, data2)
 
-    if format_name == 'stylish':
+    if format_name == "stylish":
         return format_stylish(diff)
-    elif format_name == 'plain':
+    elif format_name == "plain":
         return format_plain(diff)
-    elif format_name == 'json':
+    elif format_name == "json":
         return format_json(diff)
     else:
-        raise ValueError(f'Unsupported format: {format_name}')
+        raise ValueError(f"Unsupported format: {format_name}")
 
 
 def main():
     parser = argparse.ArgumentParser(
         description="Compares two configuration files and shows a difference.",
-        prog='gendiff'
+        prog="gendiff",
     )
-    
-    parser.add_argument('first_file')
-    parser.add_argument('second_file')
-    parser.add_argument('-f', '--format', default='stylish', 
-                       choices=['stylish', 'plain', 'json'],
-                       help='set format of output (default: stylish)')
-    
+
+    parser.add_argument("first_file")
+    parser.add_argument("second_file")
+    parser.add_argument(
+        "-f",
+        "--format",
+        default="stylish",
+        choices=["stylish", "plain", "json"],
+        help="set format of output (default: stylish)",
+    )
+
     args = parser.parse_args()
 
     diff = generate_diff(args.first_file, args.second_file, args.format)
     print(diff)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
