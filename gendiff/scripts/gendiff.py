@@ -1,7 +1,8 @@
 import argparse
-from gendiff.scripts.parsers import load_file
+
+from gendiff.formatters import format_json, format_plain, format_stylish
 from gendiff.scripts.diff_builder import build_diff
-from gendiff.formatters import format_stylish, format_plain, format_json
+from gendiff.scripts.parsers import load_file
 
 
 def generate_diff(file_path1, file_path2, format_name='stylish'):

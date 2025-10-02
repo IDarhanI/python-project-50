@@ -1,7 +1,9 @@
-import pytest
 import json
 import os
 import re
+
+import pytest
+
 from gendiff.scripts.gendiff import generate_diff
 
 
