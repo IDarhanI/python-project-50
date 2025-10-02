@@ -1,6 +1,5 @@
 import json
 import os
-import re
 
 import pytest
 
@@ -18,10 +17,11 @@ def read_fixture(filename):
 
 
 def normalize_whitespace(text):
-    text = re.sub(r' {2,}', ' ', text)
-    text = re.sub(r' *\n', '\n', text)
-    
-    return text.strip()
+    lines = []
+    for line in text.split('\n'):
+        line = ' '.join(line.split())
+        lines.append(line)
+    return '\n'.join(lines).strip()
 
 
 @pytest.fixture
@@ -76,11 +76,9 @@ def test_json_format():
     
     result = generate_diff(file1, file2, 'json')
     
-    # Проверяем что результат валидный JSON
     parsed_result = json.loads(result)
     assert isinstance(parsed_result, list)
     
-    # Проверяем структуру
     for item in parsed_result:
         assert 'key' in item
         assert 'type' in item
@@ -95,7 +93,6 @@ def test_json_format_yaml():
     
     result = generate_diff(file1, file2, 'json')
     
-    # Проверяем что результат валидный JSON
     parsed_result = json.loads(result)
     assert isinstance(parsed_result, list)
 
