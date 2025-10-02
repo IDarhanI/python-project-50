@@ -18,8 +18,9 @@ def read_fixture(filename):
 
 
 def normalize_whitespace(text):
-    text = re.sub(r' +', ' ', text)
-    text = re.sub(r' +\n', '\n', text)
+    text = re.sub(r' {2,}', ' ', text)
+    text = re.sub(r' *\n', '\n', text)
+    
     return text.strip()
 
 
